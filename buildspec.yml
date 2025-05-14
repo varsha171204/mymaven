@@ -1,0 +1,28 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto11  # or corretto17 depending on your Java version
+    commands:
+      - echo Installing Gradle...
+      - yum install -y unzip
+      - wget https://services.gradle.org/distributions/gradle-7.6-bin.zip
+      - unzip -d /opt/gradle gradle-7.6-bin.zip
+      - export PATH=$PATH:/opt/gradle/gradle-7.6/bin
+      - gradle --version
+  pre_build:
+    commands:
+      - echo Pre-build phase started
+  build:
+    commands:
+      - echo Build started on `date`
+      - gradle clean build
+  post_build:
+    commands:
+      - echo Build completed on `date`
+
+artifacts:
+  files:
+    - build/libs/*.jar
+  discard-paths: yes
